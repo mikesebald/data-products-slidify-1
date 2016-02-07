@@ -1,0 +1,48 @@
+```{r, echo = FALSE}
+library(rCharts)
+library(lattice)
+library(googleVis)
+
+df_countries <- data.frame(country = c("DE", "FR", "GB", "US", "IT", "AU", "CA"), 
+                           items = c(25000, 17500, 23000, 98000, 17000, 6250, 12900))
+
+p_country_item <- rPlot(items ~ country, data = df_countries, color = "country", type = "bar")
+p_country_item$print("Items per Country")
+
+
+df_countries <- cbind(df_countries,
+                      given = c(9000, 6000, 12000, 45000, 2000, 1000, 9000),
+                      last = c(4000, 2000, 9000, 12000, 978, 45, 2210),
+                      title = c(500, 100, 20, 400, 100, 27, 48))
+```
+
+charts
+========================================================
+author: Michael Sebald
+date: 
+
+Using Lattice
+========================================================
+
+```{r}
+p_lattice <- barchart(given + last + title ~ country, data = df_countries)
+plot(p_lattice)
+```
+
+Using rCharts
+========================================================
+
+```{r}
+p_countries <- mPlot(x = "country", y = list("items", "given", "last", "title"), data = df_countries, type = "Bar")
+p_countries$save("graphics/p_countries.html", cdn = TRUE)
+p_countries
+```
+
+Using googleVis
+========================================================
+
+```{r}
+bar1 <- gvisBarChart(df_countries, xvar = "country", yvar = c("items", "given"))
+plot(bar1)
+
+```
